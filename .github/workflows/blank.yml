@@ -27,11 +27,11 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
-            install.packages("rvest")
-            install.packages("dplyr")
-            install.packages("stringr")
-            install.packages("lubridate")
-            install.packages("readr")
+            any::rvest 
+            any::dplyr
+            any::stringr
+            any::lubridate
+            any::readr
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out repository
