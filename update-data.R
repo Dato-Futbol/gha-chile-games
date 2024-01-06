@@ -12,6 +12,8 @@ games = tables[2] %>% as.data.frame()
 
 columns = c("num_game", "date", "city", "team_home", "goals_home", "team_away", "goals_away", "competition")
 
+names(games) = columns
+
 games_ok = games %>% 
           slice(3:nrow(games)) %>%
           mutate(across(c(goals_home, goals_away), ~gsub("[(].*", "", .x))) %>% 
