@@ -33,4 +33,4 @@ games_ok = games %>%
                  amistoso = ifelse(competition == "Partido amistoso", "Sí", "No")) %>% 
           filter(!is.na(goals_home))
 
-write_rds(games_ok, "chile_games.rds")
+write_csv(games_ok, "chile_games.csv")
