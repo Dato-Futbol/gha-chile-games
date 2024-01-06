@@ -2,6 +2,7 @@ library(rvest)
 library(dplyr)
 library(stringr)
 library(lubridate)
+library(readr)
 
 path = 'https://www.partidosdelaroja.com/1970/01/partidos-clase-a.html'
 web = read_html(path)

@@ -31,6 +31,7 @@ jobs:
             any::dplyr
             any::stringr
             any::lubridate
+            any::readr
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out repository
