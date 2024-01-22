@@ -10,9 +10,10 @@ library(janitor)
 path = 'https://www.partidosdelaroja.com/1970/01/partidos-clase-a.html'
 web = read_html(path)
 
-tables = html_table(web)
-
-games = tables[2] %>% as.data.frame()
+games = web %>% 
+         html_nodes(xpath = "//table[@class='table3']") %>%
+         html_table(fill = T) %>% 
+         as.data.frame()
 
 columns = c("num_game", "date", "city", "team_home", "goals_home", "team_away", "goals_away", "competition")
 
