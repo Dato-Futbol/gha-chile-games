@@ -32,9 +32,12 @@ write_csv(games_ok, "chile_games.csv")
 # chile dts
 path_dt = "https://www.partidosdelaroja.com/1970/01/entrenadores.html"
 web_dt = read_html(path_dt)
-tables_dt = html_table(web_dt)
 
-data_dt = tables_dt[2] %>% as.data.frame()
+data_dt = web_dt %>% 
+          html_nodes(xpath = "//*[@id='post-body-7333737142337163810']/center[1]/table") %>%
+          html_table(fill = T) %>% 
+          as.data.frame()
+
 names(data_dt) = data_dt[1, ]
 
 numeric_columns = c("pj", "pg", "pe", "pp", "gf", "gc", "dif")
