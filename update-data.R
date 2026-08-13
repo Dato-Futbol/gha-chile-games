@@ -4,16 +4,20 @@ library(stringr)
 library(lubridate)
 library(readr)
 library(janitor)
+library(httr)
 
+source('helpers.R')
 
 # chile games
 path = 'https://www.partidosdelaroja.com/1970/01/partidos-clase-a.html'
-web = read_html(path)
+web = fetch_html(path)
 
 games = web %>% 
          html_nodes(xpath = "//table[@class='table3']") %>%
          html_table(fill = T) %>% 
          as.data.frame()
+
+stopifnot(nrow(games) > 0)
 
 columns = c("num_game", "date", "city", "team_home", "goals_home", "team_away", "goals_away", "competition")
 
@@ -26,17 +30,21 @@ games_ok = games %>%
           mutate(date = dmy(date)) %>% 
           filter(!is.na(goals_home))
 
+stopifnot(nrow(games_ok) > 0)
+
 write_csv(games_ok, "chile_games.csv")
 
 
 # chile dts
 path_dt = "https://www.partidosdelaroja.com/1970/01/entrenadores.html"
-web_dt = read_html(path_dt)
+web_dt = fetch_html(path_dt)
 
 data_dt = web_dt %>% 
           html_nodes(xpath = "//*[@id='post-body-7333737142337163810']/center[1]/table") %>%
           html_table(fill = T) %>% 
           as.data.frame()
+
+stopifnot(nrow(data_dt) > 0)
 
 names(data_dt) = data_dt[1, ]
 
@@ -49,5 +57,7 @@ dt_stats = data_dt %>%
           mutate(across(all_of(numeric_columns), ~as.numeric(.x))) %>% 
           mutate(desde = dmy(desde),
                  hasta = dmy(hasta)) 
+
+stopifnot(nrow(dt_stats) > 0)
 
 write_csv(dt_stats, "chile_dts_stats.csv")
